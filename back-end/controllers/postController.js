@@ -78,3 +78,24 @@ export const getPostsByUserId = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch posts" });
   }
 };
+
+export const deletePostById = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { senderId } = req;
+    const post = await Post.findById({ _id: postId });
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+    if (post.creatorId.toString() !== senderId) {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to delete this post" });
+    }
+    await Post.findByIdAndDelete({ _id: postId });
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to delet post" });
+  }
+};
