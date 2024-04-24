@@ -3,6 +3,7 @@ import "../db/config.js";
 import {
   createPost,
   deletePostById,
+  dislikePost,
   getAllPosts,
   getPostsByUserId,
   likePost,
@@ -23,5 +24,7 @@ router.delete("/:postId", verifyToken, deletePostById);
 router.put("/:postId", verifyToken, updatePostById);
 
 router.put("/like/:postId", verifyToken, likePost);
+
+router.put("/dislike/:postId", verifyToken, dislikePost);
 
 export default router;
