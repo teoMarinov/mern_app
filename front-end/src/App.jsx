@@ -10,23 +10,24 @@ import ListPosts from "./components/allPosts/ListPosts";
 
 export default function App() {
   return (
-    <AuthProvider>
-      <Header />
-      <div id="body">
-        <Routes>
-          <Route path="/" element={<ListPosts />} />
+    <div className="h-full w-full overflow-x-hidden">
+      <AuthProvider>
+        <Header />
+        <div className="overflow-auto">
+          <Routes>
+            <Route path="/" element={<ListPosts />} />
 
-          <Route element={<PrivateRoutes />}>
-            <Route path="/new-post" element={<NewPost />} />
-            <Route path="/update" element={"update"} />
-          </Route>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/new-post" element={<NewPost />} />
+              <Route path="/update" element={"update"} />
+            </Route>
 
-          <Route path="/logout" element={"logout"} />
-          <Route path="/singup" element={<Singup />} />
-          <Route path="/Singin" element={<Singin />} />
-        </Routes>
-      </div>
-      <Footer />
-    </AuthProvider>
-  )
+            <Route path="/logout" element={"logout"} />
+            <Route path="/singup" element={<Singup />} />
+            <Route path="/Singin" element={<Singin />} />
+          </Routes>
+        </div>
+        <Footer />
+      </AuthProvider>
+    </div>)
 }

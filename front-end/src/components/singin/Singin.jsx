@@ -27,7 +27,7 @@ const Singin = () => {
 
 
     return (
-        <div className="h-full w-full flex flex-col items-center justify-center">
+        <div className="h-[857px] w-full flex flex-col items-center justify-center">
             <h1 className="text-4xl mb-7">Singin</h1>
             <form onSubmit={onSubmit} className="w-96 pb-3">
                 <label className="block mb-2">

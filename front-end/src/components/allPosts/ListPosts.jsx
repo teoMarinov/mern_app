@@ -5,7 +5,6 @@ import PostView from "./PostView";
 const ListPosts = () => {
 
     const [allPosts, setAllPosts] = useState([]);
-    console.log("🚀 ~ ListPosts ~ allPosts:", allPosts)
 
     useEffect(() => {
         request("get", "/post/all-posts")
@@ -16,11 +15,13 @@ const ListPosts = () => {
 
 
     return (
-        <div className="h-full w-full flex flex-col items-center p-12 overflow-auto">
+        <div className="min-h-[857px] w-full flex flex-col items-center p-12 overflow-auto">
             <h1 className="text-5xl mb-20">All Postss</h1>
             <ul>
                 {allPosts.map(post => (
                     <li key={post._id}>
+                        <PostView title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
+                        <PostView title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
                         <PostView title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
                     </li>
                 ))}
