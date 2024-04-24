@@ -37,9 +37,7 @@ export const request = (method, url, data) => {
 };
 
 export const persistentLogin = () => {
-  console.log(getAuthToken())
   if (!getAuthToken()) throw new Error("No Auth token");
-  console.log("BBBBB")
 
   return request("get", "/auth/persistentLogin").catch(() => {
     setJwtToken("");

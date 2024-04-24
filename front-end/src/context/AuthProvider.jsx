@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
     try {
       persistentLogin()
         .then(({ data }) => { 
-          console.log("🚀 ~ .then ~ data:", data)
           
           signIn(data.userInfo, data.token) })
         .finally(() => navigate("/"));
