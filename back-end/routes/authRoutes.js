@@ -13,6 +13,6 @@ router.post("/register", createUser);
 
 router.post("/login", loginUser);
 
-router.post("/persistentLogin", verifyToken, tokenLogin);
+router.get("/persistentLogin", verifyToken, tokenLogin);
 
 export default router;
