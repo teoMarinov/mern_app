@@ -20,9 +20,7 @@ const ListPosts = () => {
             <ul>
                 {allPosts.map(post => (
                     <li key={post._id}>
-                        <PostView title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
-                        <PostView title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
-                        <PostView title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
+                        <PostView creator={post.creator} title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} />
                     </li>
                 ))}
             </ul>
