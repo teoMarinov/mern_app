@@ -21,6 +21,16 @@ const MyPosts = () => {
             .then(() => getPosts())
     }
 
+    const onLike = (id) => {
+        request("put", `post/like/${id}`)
+            .then(() => getPosts())
+    }
+
+    const onDislike = (id) => {
+        request("put", `post/dislike/${id}`)
+            .then(() => getPosts())
+    }
+
     useEffect(() => {
         getPosts()
     }, [])
@@ -39,7 +49,9 @@ const MyPosts = () => {
                             likes={post.likes}
                             dislikes={post.dislikes}
                             onDelete={() => onDelete(post._id)}
-                            />
+                            onLike={() => onLike(post._id)}
+                            onDislike={() => onDislike(post._id)}
+                        />
                     </li>
                 ))}
             </ul>

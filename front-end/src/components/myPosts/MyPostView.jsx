@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { request } from "../../config/axios-helper"
 
-const MyPostView = ({ creator, title, likes, dislikes, body, onDelete }) => {
+const MyPostView = ({ creator, title, likes, dislikes, body, onDelete, onLike, onDislike }) => {
     const nav = useNavigate
 
 
@@ -23,8 +23,8 @@ const MyPostView = ({ creator, title, likes, dislikes, body, onDelete }) => {
                 {body}
             </p>
             <div className="space-x-5 mt-5 text-xl cursor-pointer">
-                <span>Likes: {likes}</span>
-                <span >Dislikes: {dislikes}</span>
+                <span onClick={onLike}>Likes: {likes}</span>
+                <span onClick={onDislike}>Dislikes: {dislikes}</span>
             </div>
         </div>
     );
