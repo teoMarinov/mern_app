@@ -1,23 +1,48 @@
 import User from "../db/User.js";
 import "../db/config.js";
+import jwt from "jsonwebtoken";
+import { SERCRET_KEY } from "../index.js";
+import bcrypt from "bcrypt";
 
-export const createUser = (req, res) => {
-  let user = new User(req.body);
-  user.save().then((data) => {
-    res.send(data);
-  });
+export const createUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword });
+    await user.save();
+    res.status(201).json({ message: "Registration success" });
+  } catch (err) {
+    res.status(500).json({ error: "Registration failed" });
+  }
 };
 
 export const loginUser = async (req, res) => {
-  const { email, password } = new User(req.body);
-  const user = await User.findOne({ email });
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
-  if (!user) return res.send({ message: "No user found" });
+    if (!user) {
+      return res.status(401).json({ message: "Authentication failed" });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
-  console.log(user, password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Authentication failed" });
+    }
 
-  if (user.password === password) {
-    return res.send({ message: "Login success", data: user });
+    const token = jwt.sign({ userId: user._id }, SERCRET_KEY, {
+      expiresIn: "24h",
+    });
+    res.status(200).json({
+      message: "Login success",
+      userInfo: {
+        name: user.name,
+        email: user.email,
+        userId: user._id,
+      },
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Login failed" });
   }
-  return res.send({ message: "Wrong password" });
 };

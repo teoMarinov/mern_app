@@ -3,6 +3,9 @@ import cors from "cors";
 import "./db/config.js";
 import authRoutes from "./routes/authRoutes.js";
 
+export const SERCRET_KEY =
+  "JKHSDF7I3R2YIUOWEHF78I23HFI87OU23HF7832HF9732GFHO3U2YTGO78";
+
 const app = express();
 
 app.use(express.json());
