@@ -55,11 +55,24 @@ export const getPostsByUserId = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    const posts = await Post.find({ creatorId: userId }).populate(
+      "creatorId",
+      "name"
+    );
 
-    // Find all posts with the specified creatorId
-    const posts = await Post.find({ creatorId: userId });
+    const formattedPosts = posts.map((post) => ({
+      _id: post._id,
+      title: post.title,
+      body: post.body,
+      likes: post.likes,
+      dislikes: post.dislikes,
+      creator: {
+        _id: post.creatorId._id,
+        name: post.creatorId.name,
+      },
+    }));
 
-    res.status(200).json(posts);
+    res.status(200).json(formattedPosts);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch posts" });

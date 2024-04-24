@@ -7,6 +7,7 @@ import AuthProvider from "./context/AuthProvider";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import NewPost from "./components/newPost/NewPost";
 import ListPosts from "./components/allPosts/ListPosts";
+import MyPosts from "./components/myPosts/MyPosts";
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
 
             <Route element={<PrivateRoutes />}>
               <Route path="/new-post" element={<NewPost />} />
-              <Route path="/update" element={"update"} />
+              <Route path="/my-posts" element={<MyPosts />} />
             </Route>
 
             <Route path="/logout" element={"logout"} />
