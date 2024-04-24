@@ -8,15 +8,22 @@ const MyPosts = () => {
     const { user } = useAuth();
 
     const [myPosts, setMyPosts] = useState([]);
-    console.log("🚀 ~ MyPosts ~ myPosts:", myPosts)
 
-
-    useEffect(() => {
+    const getPosts = () => {
         request("get", `/post/${user.userId}`)
             .then(({ data }) => {
                 setMyPosts(data);
             })
-    }, [user.userId])
+    }
+
+    const onDelete = (id) => {
+        request("delete", `post/${id}`)
+            .then(() => getPosts())
+    }
+
+    useEffect(() => {
+        getPosts()
+    }, [])
 
 
     return (
@@ -25,7 +32,14 @@ const MyPosts = () => {
             <ul>
                 {myPosts.map(post => (
                     <li key={post._id}>
-                        <MyPostView creator={post.creator} title={post.title} body={post.body} likes={post.likes} dislikes={post.dislikes} id={post._id} />
+                        <MyPostView
+                            creator={post.creator}
+                            title={post.title}
+                            body={post.body}
+                            likes={post.likes}
+                            dislikes={post.dislikes}
+                            onDelete={() => onDelete(post._id)}
+                            />
                     </li>
                 ))}
             </ul>
