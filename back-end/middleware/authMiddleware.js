@@ -8,6 +8,8 @@ const verifyToken = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, SERCRET_KEY);
+    req.senderId = decoded.userId
+  
     next();
   } catch (error) {
     res.status(401).json({ msg: "Invalid token, authorization denied" });

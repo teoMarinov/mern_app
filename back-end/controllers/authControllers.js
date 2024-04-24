@@ -49,11 +49,9 @@ export const loginUser = async (req, res) => {
 
 export const tokenLogin = async (req, res) => {
   const token = req.header("Authorization").split(" ")[1];
-  const decoded = jwt.verify(token, SERCRET_KEY).userId;
+  const userId = jwt.verify(token, SERCRET_KEY).userId;
 
-  const user = await User.findOne({ _id: decoded });
-
-  console.log(user);
+  const user = await User.findOne({ _id: userId });
 
   res.status(200).json({
     message: "Login success",

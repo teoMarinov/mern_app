@@ -3,10 +3,10 @@ import Post from "../db/Post.js";
 import "../db/config.js";
 import jwt from "jsonwebtoken";
 import { SERCRET_KEY } from "../index.js";
+import mongoose from "mongoose";
 
 export const getAllPosts = async (req, res) => {
   try {
-
     const posts = await Post.find().populate("creatorId", "name");
 
     const formattedPosts = posts.map((post) => ({
@@ -29,14 +29,13 @@ export const getAllPosts = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  const token = req.header("Authorization").split(" ")[1];
-  const decoded = jwt.verify(token, SERCRET_KEY).userId;
+  const creatorId = req.senderId;
 
   const { title, body } = req.body;
   const newPost = new Post({
     title,
     body,
-    creatorId: decoded,
+    creatorId,
   });
   const savedPost = await newPost.save();
   res.status(200).json({
@@ -50,4 +49,19 @@ export const createPost = async (req, res) => {
       creatorId: savedPost.creatorId,
     },
   });
+};
+
+export const getPostsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+
+    // Find all posts with the specified creatorId
+    const posts = await Post.find({ creatorId: userId });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch posts" });
+  }
 };
