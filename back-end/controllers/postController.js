@@ -125,3 +125,33 @@ export const updatePostById = async (req, res) => {
     res.status(500).json({ error: "Failed to update the post" });
   }
 };
+
+export const likePost = async (req, res) => {
+  const { senderId } = req;
+  const { postId } = req.params;
+  const post = await Post.findById({ _id: postId });
+  const isLiked = post.likedBy.indexOf(senderId);
+  const isDisliked = post.dislikedBy.indexOf(senderId);
+  if (isLiked == -1) {
+    await Post.findByIdAndUpdate(
+      postId,
+      { $push: { likedBy: senderId }, $inc: { likes: 1 } },
+      { new: true }
+    );
+  } else {
+    await Post.findByIdAndUpdate(
+      postId,
+      { $pull: { likedBy: senderId }, $inc: { likes: -1 } },
+      { new: true }
+    );
+  }
+  if (isDisliked >= 0) {
+    await Post.findByIdAndUpdate(
+      postId,
+      { $pull: { dislikedBy: senderId }, $inc: { dislikes: -1 } },
+      { new: true }
+    );
+  }
+  const updatedPost = await Post.findById(postId);
+  res.status(200).json(updatedPost);
+};
