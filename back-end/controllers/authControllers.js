@@ -46,3 +46,22 @@ export const loginUser = async (req, res) => {
     res.status(500).json({ error: "Login failed" });
   }
 };
+
+export const tokenLogin = async (req, res) => {
+  const token = req.header("Authorization").split(" ")[1];
+  const decoded = jwt.verify(token, SERCRET_KEY).userId;
+
+  const user = await User.findOne({ _id: decoded });
+
+  console.log(user);
+
+  res.status(200).json({
+    message: "Login success",
+    userInfo: {
+      name: user.name,
+      email: user.email,
+      userId: user._id,
+    },
+    token,
+  });
+};
