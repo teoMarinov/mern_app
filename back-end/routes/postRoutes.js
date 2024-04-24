@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get("/all-posts", getAllPosts);
 
-router.post("/new-post", createPost);
+router.post("/new-post", verifyToken, createPost);
 
 export default router;
