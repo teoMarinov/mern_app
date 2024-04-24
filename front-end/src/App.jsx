@@ -5,6 +5,7 @@ import Singup from "./components/singup/Singup";
 import Singin from "./components/singin/Singin";
 import AuthProvider from "./context/AuthProvider";
 import PrivateRoutes from "./routes/PrivateRoutes";
+import NewPost from "./components/newPost/NewPost";
 
 export default function App() {
   return (
@@ -15,7 +16,7 @@ export default function App() {
           <Route path="/" element={"Product"} />
 
           <Route element={<PrivateRoutes />}>
-            <Route path="/add" element={"add"} />
+            <Route path="/new-post" element={<NewPost />} />
             <Route path="/update" element={"update"} />
           </Route>
           
