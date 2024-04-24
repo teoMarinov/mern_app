@@ -3,7 +3,11 @@ import Post from "../db/Post.js";
 import "../db/config.js";
 import jwt from "jsonwebtoken";
 import { SERCRET_KEY } from "../index.js";
-import bcrypt from "bcrypt";
+
+export const getAllPosts = async (req, res) => {
+  const posts = await Post.find();
+  res.status(200).json(posts);
+};
 
 export const createPost = async (req, res) => {
   const token = req.header("Authorization").split(" ")[1];
